@@ -44,7 +44,7 @@ class Grafo:
         else:
             return None
 
-    def remove_vertice(self, identificador): #Método recebe um int
+    def remove_vertice(self, identificador):  # Método recebe um int
         v = self.busca_Vertice(identificador)
         if v is None:
             return None
@@ -58,7 +58,7 @@ class Grafo:
                 return None
 
     def nova_Aresta(self, origem, destino, peso):  # Método recebe dois identificadores
-        if self.busca_Aresta(self.busca_Vertice(origem), self.busca_Vertice(destino)):
+        if self.busca_Aresta(self.busca_Vertice(origem), self.busca_Vertice(destino)) or self.busca_Aresta(self.busca_Vertice(destino), self.busca_Vertice(origem)):
             return False
 
         origem_aux = self.busca_Vertice(origem)
