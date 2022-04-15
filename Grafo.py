@@ -1,5 +1,6 @@
 from Vertice import Vertice
 from Aresta import Aresta
+from operator import itemgetter
 
 # Grafo
 class Grafo:
@@ -108,8 +109,16 @@ class Grafo:
             if (u.getId() == origem.getId()) and (destino.getVisitado() == False):
                 destino.setVisitado(True)  # Para que não retorn o mesmo vertice seguidas veses
                 return destino
-        else:
-            return None
+        return None
+
+    def busca_Adjacentes(self, u):  # Método recebe um vertice
+        vertices_vizinhos = []
+        for i in range(len(self.lista_Arestas)):
+            origem = self.lista_Arestas[i].getOrigem()
+            destino = self.lista_Arestas[i].getDestino()
+            if (u.getId() == origem.getId()):
+                vertices_vizinhos.append(destino)
+        return vertices_vizinhos
 
     def Depth_first_search(self):
         self.tempo = 0
@@ -200,6 +209,7 @@ class Grafo:
             v.setEstimativa(u.getEstimativa() + w.getPeso())
             v.predecessor.append(u.getId())  # guarda apenas o id
 
+#Brute force
     def generate_subsets(self, set_, curr_subset, subsets_, k, next_index):
         if len(curr_subset) == int(k):
             subsets_.append(curr_subset)
@@ -216,7 +226,10 @@ class Grafo:
 
             in_cover = False
             for vertex in cover:
-                if edge.getOrigem() == vertex or edge.getDestino() == vertex:
+                if type(edge) == tuple:
+                    if edge[0].getId() == vertex or edge[1].getId() == vertex:
+                        in_cover = True
+                elif edge.getOrigem() == vertex or edge.getDestino() == vertex:
                     in_cover = True
             # stop processing as soon as one edge found not in cover
             if not in_cover:
@@ -232,13 +245,13 @@ class Grafo:
 
     def bruteForce(self):
         vertices = self.lista_Vertices
-        k = len(vertices)
+        vertices_quantity = len(vertices)
         res = []
         min_vertices_lenght = len(vertices)
         # generate all edges present in graph
         edges = self.lista_Arestas
 
-        for i in range(1, k):
+        for i in range(1, vertices_quantity):
             # generate all subset of size i from set vertices
             subsets_ = self.gen_subsets(vertices, i)
 
@@ -252,3 +265,33 @@ class Grafo:
                     res.append(s)
 
         return res
+
+# Heuristica de aproximação analisando graus de cada vertice
+
+    def vertex_cover_degrees(self, graph, res):
+        edges = self.generate_edges(graph)
+        degrees = self.count_degrees(edges, self.lista_Vertices)
+        degrees_sorted = sorted(degrees.items(), key=itemgetter(1), reverse=True) #itemgetter(1) retorna o valor do segundo elemento da tupla que se refere ao grau do vertice
+        cover_ = []
+        for v in degrees_sorted:
+            cover_.append(v[0])
+            if self.verify_vertex_cover(cover_, edges):
+                res.append(cover_)
+                return
+    
+    def generate_edges(self, graph):
+        edges = []
+        for node in graph: 
+            for neighbour in self.busca_Adjacentes(node):
+                if (node,neighbour) and (neighbour, node) not in edges:
+                    edges.append((node,neighbour))
+        return edges
+    
+    def count_degrees(self, edges, vertices):
+        degrees = {}
+        for v in vertices:
+            degrees[v.getId()] = 0
+        for edge in edges:
+            degrees[edge[0].getId()] += 1
+            degrees[edge[1].getId()] += 1
+        return degrees
