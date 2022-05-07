@@ -1,3 +1,4 @@
+import random
 from Vertice import Vertice
 from Aresta import Aresta
 from operator import itemgetter
@@ -109,6 +110,9 @@ class Grafo:
             if (u.getId() == origem.getId()) and (destino.getVisitado() == False):
                 destino.setVisitado(True)  # Para que não retorn o mesmo vertice seguidas veses
                 return destino
+            if (u.getId() == destino.getId()) and (origem.getVisitado() == False):
+                origem.setVisitado(True)  # Para que não retorn o mesmo vertice seguidas veses
+                return origem
         return None
 
     def busca_Adjacentes(self, u):  # Método recebe um vertice
@@ -118,6 +122,8 @@ class Grafo:
             destino = self.lista_Arestas[i].getDestino()
             if (u.getId() == origem.getId()):
                 vertices_vizinhos.append(destino)
+            elif (u.getId() == destino.getId()):
+                vertices_vizinhos.append(origem)
         return vertices_vizinhos
 
     def Depth_first_search(self):
@@ -295,3 +301,14 @@ class Grafo:
             degrees[edge[0].getId()] += 1
             degrees[edge[1].getId()] += 1
         return degrees
+
+    def create_random_graph(self, quantity):
+        for i in range(quantity):
+            self.novo_Vertice(i)
+        for i in range(quantity):
+            #verificar se o grafo ta sendo criado do 0.
+            for j in range(quantity):
+                random_number = random.randint(0, quantity - 1)
+                random_bool = random.choice([True, False])
+                if random_number != i and random_bool:
+                    self.nova_Aresta(i, random_number, 0)
