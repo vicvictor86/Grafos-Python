@@ -1,5 +1,6 @@
 from Grafo import Grafo
 from copy import deepcopy
+from NP_Completo import testaResultadoEmTempoPolinomial, calcula_tempo_grafos_aleatorios
 
 option = 1
 grafo = Grafo()
@@ -22,7 +23,7 @@ grafo_exemplo.nova_Aresta(4, 5, 0)
 
 while option:
     print("Vértice-Local de câmera\nAresta-Corredor\n\nOpções:\n1-Adicionar local de câmera\n2-Adicionar um corredor\n3-Remover local de câmera\n4-Remover um corredor",
-        "\n5-Utilizar exemplo\n6-Realizar Cobertura Mínima de Vértices\n7-Realizar cobertura heurística\n8-Mostrar Grafo\n0-Sair da Aplicação\n")
+        "\n5-Utilizar exemplo\n6-Realizar Cobertura Mínima de Vértices\n7-Realizar cobertura heurística\n8-Mostrar Grafo\n9-Testa resultado\n10-Compara brute Force com heurística\n0-Sair da Aplicação\n")
     option = int(input("O que deseja fazer ? "))
 
     if option == 1:
@@ -69,3 +70,7 @@ while option:
             print()
     elif option == 8:
         print(grafo.printa_grafo())
+    elif option == 9:
+        testaResultadoEmTempoPolinomial(grafo)
+    elif option == 10:
+        calcula_tempo_grafos_aleatorios()

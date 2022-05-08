@@ -18,8 +18,8 @@ def calcular_tempo_brute_force_timeit(vertex_quantity):
     for i in range (0, 3):
         tempo_brute_force += timeit.timeit("grafo.bruteForce()", setup="from __main__ import grafo", number=1)
     tempo_brute_force /= 3
-    arquivo.write("bruteForce " + ": "  + str(float(tempo_brute_force)) + ";"+ '\n')
-    arquivo1.write(str(float(tempo_brute_force))+'\n')
+    arquivo.write("bruteForce " + ": "  + "{:.12f}".format(float(tempo_brute_force)) + ";"+ '\n')
+    arquivo1.write("{:.12f}".format(float(tempo_brute_force))+'\n')
     print('bruteForce done.')
 
     arquivo.close()
@@ -42,15 +42,15 @@ def calcular_tempo_heuristic_timeit(vertex_quantity):
     for i in range (0, 3):
         tempo_heuristic += timeit.timeit("grafo.vertex_cover_degrees(grafo.lista_Vertices, {})".format(lista_coberturas), setup="from __main__ import grafo", number=1)
     tempo_heuristic /= 3
-    arquivo.write("heuristic " + ": " + str(float(tempo_heuristic)) + ";"+ '\n')
-    arquivo1.write(str(float(tempo_heuristic))+'\n')
+    arquivo.write("heuristic " + ": " + "{:.12f}".format(float(tempo_heuristic)) + ";"+ '\n')
+    arquivo1.write("{:.12f}".format(float(tempo_heuristic))+'\n')
     print('heuristic done.')
 
     arquivo.close()
 
 def gerar_grafico(alghoritm_value, alghoritm_classification, tipo):
     ''''''
-    y_axis = alghoritm_value
+    y_axis = list(map(lambda x: "{:.12f}".format(float(x)), alghoritm_value))
     print(y_axis)
     x_axis = range(len(y_axis))
     width_n = 0.4
