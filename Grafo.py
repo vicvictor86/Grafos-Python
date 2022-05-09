@@ -215,7 +215,7 @@ class Grafo:
             v.setEstimativa(u.getEstimativa() + w.getPeso())
             v.predecessor.append(u.getId())  # guarda apenas o id
 
-#Brute force
+    #Brute force
     def generate_subsets(self, set_, curr_subset, subsets_, k, next_index):
         if len(curr_subset) == int(k):
             subsets_.append(curr_subset)
@@ -272,27 +272,29 @@ class Grafo:
 
         return res
 
-# Heuristica de aproximação analisando graus de cada vertice
-
-    def vertex_cover_degrees(self, graph, res):
-        edges = self.generate_edges(graph)
+    # Heuristica de aproximação analisando graus de cada vertice
+    def vertex_cover_degrees(self, graph_vertexs, res):
+        edges = self.generate_edges(graph_vertexs)
         degrees = self.count_degrees(edges, self.lista_Vertices)
         degrees_sorted = sorted(degrees.items(), key=itemgetter(1), reverse=True) #itemgetter(1) retorna o valor do segundo elemento da tupla que se refere ao grau do vertice
         cover_ = []
+        #analisa os vértices a partir dos vértices com maior grau até os com menor grau
         for v in degrees_sorted:
             cover_.append(v[0])
             if self.verify_vertex_cover(cover_, edges):
                 res.append(cover_)
                 return
     
-    def generate_edges(self, graph):
+    #cria uma lista de arestas com os vizinhos da cada nó existente no grafo
+    def generate_edges(self, graph_vertexs):
         edges = []
-        for node in graph: 
+        for node in graph_vertexs: 
             for neighbour in self.busca_Adjacentes(node):
                 if (node,neighbour) and (neighbour, node) not in edges:
                     edges.append((node,neighbour))
         return edges
     
+    #Conta qual é o grau de cada vértice do grafo
     def count_degrees(self, edges, vertices):
         degrees = {}
         for v in vertices:
@@ -306,7 +308,6 @@ class Grafo:
         for i in range(quantity):
             self.novo_Vertice(i)
         for i in range(quantity):
-            #verificar se o grafo ta sendo criado do 0.
             for j in range(quantity):
                 random_number = random.randint(0, quantity - 1)
                 random_bool = random.choice([True, False])

@@ -15,9 +15,7 @@ def calcular_tempo_brute_force_timeit(vertex_quantity):
     #calculando o bruteForce()
     print('>>> calculando brute force com tamanho ' + str(vertex_quantity))
     tempo_brute_force = 0
-    for i in range (0, 3):
-        tempo_brute_force += timeit.timeit("grafo.bruteForce()", setup="from __main__ import grafo", number=1)
-    tempo_brute_force /= 3
+    tempo_brute_force += timeit.timeit("grafo.bruteForce()", setup="from __main__ import grafo", number=1)
     arquivo.write("bruteForce " + ": "  + "{:.12f}".format(float(tempo_brute_force)) + ";"+ '\n')
     arquivo1.write("{:.12f}".format(float(tempo_brute_force))+'\n')
     print('bruteForce done.')
@@ -39,18 +37,16 @@ def calcular_tempo_heuristic_timeit(vertex_quantity):
     print('>>> calculando heuristic com tamanho ' + str(vertex_quantity))
     tempo_heuristic = 0
     lista_coberturas = []
-    for i in range (0, 3):
-        tempo_heuristic += timeit.timeit("grafo.vertex_cover_degrees(grafo.lista_Vertices, {})".format(lista_coberturas), setup="from __main__ import grafo", number=1)
-    tempo_heuristic /= 3
+    tempo_heuristic += timeit.timeit("grafo.vertex_cover_degrees(grafo.lista_Vertices, {})".format(lista_coberturas), setup="from __main__ import grafo", number=1)
     arquivo.write("heuristic " + ": " + "{:.12f}".format(float(tempo_heuristic)) + ";"+ '\n')
     arquivo1.write("{:.12f}".format(float(tempo_heuristic))+'\n')
     print('heuristic done.')
-
+    
     arquivo.close()
 
-def gerar_grafico(alghoritm_value, alghoritm_classification, tipo):
+def gerar_grafico(alghoritm_value, alghoritm_classification, tipo, size):
     ''''''
-    y_axis = list(map(lambda x: "{:.12f}".format(float(x)), alghoritm_value))
+    y_axis = alghoritm_value
     print(y_axis)
     x_axis = range(len(y_axis))
     width_n = 0.4
@@ -64,7 +60,7 @@ def gerar_grafico(alghoritm_value, alghoritm_classification, tipo):
     plt.title('Tempo de execução com algoritmo '+str(tipo))
     plt.tight_layout()
     plt.grid(True)
-    plt.savefig(os.getcwd() + '/_plot/tempos-' + str(tipo) + '.png')
+    plt.savefig(os.getcwd() + '/_plot/tempos-' + str(tipo) + str(size) + '.png')
     print('>>> figura', str(tipo), '.png salva!')
     plt.show()
 
@@ -89,7 +85,7 @@ def get_valores_pro_grafico(tipo, vertex_quantity):
     for size in size_list:
         alghoritm_classification.append(f"{str(tipo)} {str(size)}")
     
-    gerar_grafico(alghoritm_size, alghoritm_classification, tipo)
+    gerar_grafico(alghoritm_size, alghoritm_classification, tipo, size)
 
 def mostrarResultados(tipo, tam):
     arquivo = open(os.getcwd()+'/timeIt/temposTimeit'+str(tam)+str(tipo)+'.txt', 'r')
