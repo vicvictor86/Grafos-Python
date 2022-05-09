@@ -62,7 +62,7 @@ def gerar_grafico(alghoritm_value, alghoritm_classification, tipo, size):
     plt.grid(True)
     plt.savefig(os.getcwd() + '/_plot/tempos-' + str(tipo) + str(size) + '.png')
     print('>>> figura', str(tipo), '.png salva!')
-    plt.show()
+    plt.close()
 
 def get_valores_pro_grafico(tipo, vertex_quantity):
     ''''''
