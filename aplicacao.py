@@ -1,6 +1,7 @@
 from Grafo import Grafo
 from copy import deepcopy
-from NP_Completo import testaResultadoEmTempoPolinomial, calcula_tempo_grafos_aleatorios
+from NP_Completo import testaResultadoEmTempoPolinomial
+from createRandomGraph import calcula_tempo_grafos_aleatorios
 
 option = 1
 grafo = Grafo()
